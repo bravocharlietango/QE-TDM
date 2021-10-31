@@ -1,6 +1,7 @@
 
 
 void() SUB_Null = {};
+void(entity attacker, float damage) SUB_Null2 = {};
 
 void() SUB_Remove = {remove(self);};
 
@@ -22,6 +23,8 @@ vector() SetMovedir =
 	}
 	
 	self.angles = '0 0 0';
+	
+	return self.angles;
 };
 
 /*
