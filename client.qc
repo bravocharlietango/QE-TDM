@@ -1304,6 +1304,9 @@ called when a player dies
 */
 void(entity targ, entity attacker) ClientObituary =
 {
+	// next line is for killing sprees
+	if ((targ.is_onSpree = 1)) {targ.is_onSpree = 0; tmd_player_endsKillingSpree(attacker, targ); }
+
 	local	float rnum;
 	local	string deathstring, deathstring2;
 	rnum = random();
