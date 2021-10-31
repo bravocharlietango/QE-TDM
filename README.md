@@ -5,7 +5,7 @@ Quake Enhanced - Team Deathmatch (Multiplayer Mod)
 This is a multiplayer deathmatch mod focused primarily for Quake Enhanced that adds basic team-play support and some other fun additions. This started as a fork of QECTF that focused only on the teamplay improvements that make sense for deathmatch.
 
 ## How to download
-1. Download a release here or the latest progs.dat file from the repository above.
+1. Download a packaged release here or just the latest progs.dat file from the repository above.
 
 ## How to install
 1. Go to your 'Saved games' quake folder, NOT THE STEAM FOLDER. You can go to it by pressing Windows+R and typing: %userprofile%\Saved Games\Nightdive Studios\Quake\
