@@ -701,13 +701,13 @@ void() CheckRules =
 {
 
 	local	float		timelimit;
-	local	float		fraglimit;
 	
 	if (gameover)	// someone else quit the game already
 		return;
 		
 	timelimit = cvar("timelimit") * 60;
 	fraglimit = cvar("fraglimit");
+
 	
 	if (timelimit && time >= timelimit)
 	{
@@ -721,19 +721,24 @@ void() CheckRules =
 //		return;
 //	}
 
-	// check team scores
-      local float team_score = 0;
-	team_score = tdm_game_getTeamScore(self.team);
-	
-	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
-	local float enemy_score =  tdm_game_getTeamScore(otherTeam);
-	
 	
 	tdm_game_checkLeaderChange();
 	tdm_player_checkKillStreak();
 
-	// check if frag limit has been reached
-	if (fraglimit && team_score >= fraglimit)
+	local float frags_left = 0;
+	local float old_frags_left = 0;
+
+	local float player_highScore = tdm_player_highScore();
+
+	frags_left = tdm_game_getFragsLeft();
+	
+	if (frags_left != old_frags_left) 
+	{
+		old_frags_left = frags_left;
+		cvar_set("fraglimit",ftos(player_highScore + frags_left));
+	}
+	
+	if (frags_left < 1)
 	{
 
 		NextLevel ();
@@ -1305,7 +1310,7 @@ called when a player dies
 void(entity targ, entity attacker) ClientObituary =
 {
 	// next line is for killing sprees
-	if ((targ.is_onSpree = 1)) {targ.is_onSpree = 0; tmd_player_endsKillingSpree(attacker, targ); }
+	if ((targ.is_onSpree == 1)) {targ.is_onSpree = 0; tmd_player_endsKillingSpree(attacker, targ); }
 
 	local	float rnum;
 	local	string deathstring, deathstring2;

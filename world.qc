@@ -185,6 +185,9 @@ void() worldspawn =
 
 	cvar_set("teamplay","1");
 
+	fraglimit = cvar("fraglimit");
+	tdm_fraglimit = fraglimit;
+
 // custom map attributes
 	if (self.model == "maps/e1m8.bsp")
 		cvar_set ("sv_gravity", "100");
