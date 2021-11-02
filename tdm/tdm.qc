@@ -28,6 +28,8 @@ void() tdm_game_displayGameOver =
 
       local entity p = world;
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
+	local string otherTeamColor = otherTeam == TEAM_BLUE ? "BLUE" : "RED";
+	local string myTeamColor = self.team == TEAM_BLUE ? "BLUE" : "RED";
 	
 	local float team_score;	
 	local float enemy_score;	
@@ -37,39 +39,26 @@ void() tdm_game_displayGameOver =
 
 	if (team_score > enemy_score){
 
-	      while((p = findPlayerInTeam(self.team,p)))
+	      while((p = findPlayer(p)))
 	      {
-	          centerprint(p,"Your team won the game!\n");
-	      }
-
-	      while((p = findPlayerInTeam(otherTeam,p) && p != other))
-	      {
-	          centerprint(p,"Your team lost the game.\n");
+	          centerprint4(p,myTeamColor," team won the game with ", ftos(team_score)," frags.\n");
 	      }
 	}
 
 	if (team_score < enemy_score){
 
-	      while((p = findPlayerInTeam(self.team,p)))
+	      while((p = findPlayer(p)))
 	      {
-	          centerprint(p,"Your team lost the game.\n");
+		
+	          centerprint4(p,otherTeamColor," team won the game with ", ftos(enemy_score)," frags.\n");
 	      }
 
-	      while((p = findPlayerInTeam(otherTeam,p) && p != other))
-	      {
-	          centerprint(p,"Your team won the game!\n");
-	      }
 	}
 	if (team_score == enemy_score){
 
-	      while((p = findPlayerInTeam(self.team,p)))
+	      while((p = findPlayer(p)))
 	      {
-	          centerprint(p,"Your team tied the game!\n");
-	      }
-
-	      while((p = findPlayerInTeam(otherTeam,p) && p != other))
-	      {
-	          centerprint(p,"Your team tied the game!\n");
+	          centerprint(p,"BLUE and RED teams tied the game!\n");
 	      }
 	}	
 }
@@ -217,9 +206,6 @@ void() tdm_game_displayScore =
 	local float is_leading = 0;
 	if (team_score >= enemy_score) { is_leading = 1; }
 	else { is_leading = 0; }
-	
-	local	float	fraglimit;
-	fraglimit = cvar("fraglimit");
 
 	if (is_leading == 1){
 		centerprint5(self,"Your team is leading with ",ftos(team_score)," frags\nYou need ", ftos(fraglimit - team_score)," more frags to win");
@@ -240,10 +226,91 @@ void() tdm_player_checkKillStreak =
 
         if (kill_streak == 5 && p.netname != last_spree){ 
             last_spree = p.netname;
+		p.is_onSpree = 1;
             centerprint2(self,p.netname," is on a killing spree!\n"); 
-        }
-	
-       if (kill_streak == 10) {}	//frenzy
-       if (kill_streak == 15) {}	//fragfest
+        }	
+        if (kill_streak == 10 && p.netname != last_spree) {	
+            last_spree = p.netname;
+            centerprint2(self,p.netname," is on a killing frenzy!\n"); 
+	  }	
+        if (kill_streak == 15 && p.netname != last_spree) {
+	  last_spree = p.netname;
+	  centerprint2(self,p.netname," is on a killing rampage!\n");
+	  }
+        if (kill_streak == 20 && p.netname != last_spree) {
+	  last_spree = p.netname;
+	  centerprint2(self,p.netname," is unstoppable!\n");
+	  }
     }
+}
+
+void(entity attacker, entity targ) tmd_player_endsKillingSpree =
+{
+    local entity p = world;
+    while((p = findPlayer(p))) 
+    {
+        centerprint4(self,attacker.netname," ended ", targ.netname,"'s killing spree.\n"); 
+    }
+}
+
+
+float() tdm_game_getFragsLeft =
+{
+      local entity p = world;
+      local float team_score = 0;
+	local float enemy_score = 0;
+	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
+
+	team_score = tdm_game_getTeamScore(self.team);
+      enemy_score = tdm_game_getTeamScore(otherTeam);
+		
+	local float is_leading = 0;
+	if (team_score >= enemy_score) { is_leading = 1; }
+	else { is_leading = 0; }
+
+	if (is_leading == 1){ return (tdm_fraglimit - team_score);}
+	else {return (tdm_fraglimit - enemy_score);}
+}
+
+float() tdm_player_highScoreOnLeadingTeam =
+{
+
+      local entity p = world;
+	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
+
+	local float high_score = 0;
+	local float leading_team;
+	local float team_score;
+	local float enemy_score;
+
+	team_score = tdm_game_getTeamScore(self.team);
+	enemy_score = tdm_game_getTeamScore(otherTeam);
+
+	leading_team = team_score > enemy_score ? self.team : other.team;
+
+	while((p = findPlayerInTeam(leading_team,p))) {
+      	if (p.frags > high_score)
+            {
+              	high_score = p.frags;
+          	}
+      }
+
+	return high_score;
+}
+
+float() tdm_player_highScore =
+{
+
+      local entity p = world;
+
+	local float high_score = 0;
+
+	while((p = findPlayer(p))) {
+      	if (p.frags > high_score)
+            {
+              	high_score = p.frags;
+          	}
+      }
+
+	return high_score;
 }
