@@ -722,7 +722,7 @@ void() CheckRules =
 	tdm_game_checkLeaderChange();
 	tdm_player_checkKillStreak();
 	old_frags_left = old_frags_left; // just setting this to itself to avoid compiler warning
-	
+
 	local float frags_left = 0;
 	local float player_highScore = tdm_player_highScore();
 
@@ -1251,15 +1251,15 @@ void() ClientConnect =
 {
 	tdm_player_autoAssignTeam(self);
 
-	if(ctf_isBot(self)) {
-		bprint("Bot '");
-		bprint(self.netname);
-		bprint("' entered the game");
-	}
-	else {
+//	if(ctf_isBot(self)) {
+//		bprint("Bot '");
+//		bprint(self.netname);
+//		bprint("' entered the game");
+//	}
+//	else {
 		bprint (self.netname);
 		bprint (" entered the game");
-	}
+//	}
 
 	if(self.team == TEAM_BLUE)
 	bprint(" as team blue");
