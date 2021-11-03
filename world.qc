@@ -351,6 +351,8 @@ void() worldspawn =
 
 	// 63 testing
 	lightstyle(63, "a");
+
+	localcmd("bot_reloadsettings\n");
 };
 
 void() StartFrame =

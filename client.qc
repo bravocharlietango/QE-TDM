@@ -503,9 +503,6 @@ void() PutClientInServer =
 {
 	local	entity spot;
 
-	dprint("Player flags: ");
-    dprint(ftos(self.flags));
-    dprint("\n");
 
 	spot = SelectSpawnPoint ();
 
@@ -724,10 +721,9 @@ void() CheckRules =
 	
 	tdm_game_checkLeaderChange();
 	tdm_player_checkKillStreak();
-
+	old_frags_left = old_frags_left; // just setting this to itself to avoid compiler warning
+	
 	local float frags_left = 0;
-	local float old_frags_left = 0;
-
 	local float player_highScore = tdm_player_highScore();
 
 	frags_left = tdm_game_getFragsLeft();
@@ -738,7 +734,7 @@ void() CheckRules =
 		cvar_set("fraglimit",ftos(player_highScore + frags_left));
 	}
 	
-	if (frags_left < 1)
+	if (frags_left < 0)
 	{
 
 		NextLevel ();
@@ -973,8 +969,6 @@ void() PlayerPreThink =
 //		
 //		centerprint3(self,"Welcome to Quake Enhanced Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are on team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
 //    }
-
-
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
 
@@ -1026,6 +1020,8 @@ void() PlayerPreThink =
 		W_SetCurrentAmmo ();
 	}
 
+
+	
 
 	if(entmod.active) {
 		Entmod_PlayerPreThink();
@@ -1200,6 +1196,7 @@ void() PlayerPostThink =
 	
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
+
 	if (self.deadflag)
 		return;
 		
@@ -1254,9 +1251,16 @@ void() ClientConnect =
 {
 	tdm_player_autoAssignTeam(self);
 
-	bprint (self.netname);
-	bprint (" entered the game");
-	
+	if(ctf_isBot(self)) {
+		bprint("Bot '");
+		bprint(self.netname);
+		bprint("' entered the game");
+	}
+	else {
+		bprint (self.netname);
+		bprint (" entered the game");
+	}
+
 	if(self.team == TEAM_BLUE)
 	bprint(" as team blue");
 	else if(self.team == TEAM_RED)
@@ -1452,35 +1456,31 @@ void(entity targ, entity attacker) ClientObituary =
 			{
 				if (attacker.classname == "monster_army")
 					bprint (" was shot by a Grunt\n");
-				if (attacker.classname == "monster_demon1")
+				else if (attacker.classname == "monster_demon1")
 					bprint (" was eviscerated by a Fiend\n");
-				if (attacker.classname == "monster_dog")
+				else if (attacker.classname == "monster_dog")
 					bprint (" was mauled by a Rottweiler\n");
-				if (attacker.classname == "monster_dragon")
-					bprint (" was fried by a Dragon\n");
-				if (attacker.classname == "monster_enforcer")
+				else if (attacker.classname == "monster_enforcer")
 					bprint (" was blasted by an Enforcer\n");
-				if (attacker.classname == "monster_fish")
+				else if (attacker.classname == "monster_fish")
 					bprint (" was fed to the Rotfish\n");
-				if (attacker.classname == "monster_hell_knight")
+				else if (attacker.classname == "monster_hell_knight")
 					bprint (" was slain by a Death Knight\n");
-				if (attacker.classname == "monster_knight")
+				else if (attacker.classname == "monster_knight")
 					bprint (" was slashed by a Knight\n");
-				if (attacker.classname == "monster_ogre")
+				else if (attacker.classname == "monster_ogre")
 					bprint (" was destroyed by an Ogre\n");
-				if (attacker.classname == "monster_oldone")
+				else if (attacker.classname == "monster_oldone")
 					bprint (" became one with Shub-Niggurath\n");
-				if (attacker.classname == "monster_shalrath")
+				else if (attacker.classname == "monster_shalrath")
 					bprint (" was exploded by a Vore\n");
-				if (attacker.classname == "monster_shambler")
+				else if (attacker.classname == "monster_shambler")
 					bprint (" was smashed by a Shambler\n");
-				if (attacker.classname == "monster_tarbaby")
+				else if (attacker.classname == "monster_tarbaby")
 					bprint (" was slimed by a Spawn\n");
-				if (attacker.classname == "monster_vomit")
-					bprint (" was vomited on by a Vomitus\n");
-				if (attacker.classname == "monster_wizard")
+				else if (attacker.classname == "monster_wizard")
 					bprint (" was scragged by a Scrag\n");
-				if (attacker.classname == "monster_zombie")
+				else if (attacker.classname == "monster_zombie")
 					bprint (" joins the Zombies\n");
 
 				return;

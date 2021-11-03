@@ -18,6 +18,11 @@ This is a multiplayer deathmatch mod focused primarily for Quake Enhanced that a
 1. Open console and type 'game mpmod'
 2. Start a multiplayer game
 
+### Team IDs
+Red: 5
+Blue: 14
+
 ## Credits
 JPiolho: Author of QECTF, which is this is originally forked from.
+
 AngryPunk: Author of QE-TDM.
