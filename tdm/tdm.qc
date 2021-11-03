@@ -208,10 +208,10 @@ void() tdm_game_displayScore =
 	else { is_leading = 0; }
 
 	if (is_leading == 1){
-		centerprint5(self,"Your team is leading with ",ftos(team_score)," frags\nYou need ", ftos(fraglimit - team_score)," more frags to win");
+		centerprint5(self,"Your team is leading with ",ftos(team_score)," frags\nYou need ", ftos(tdm_fraglimit - team_score)," more frags to win");
 	}
 	else {
-		centerprint5(self,"Your team is behind with ",ftos(team_score)," frags\nYou need ", ftos(fraglimit - team_score)," more frags to win");
+		centerprint5(self,"Your team is behind with ",ftos(team_score)," frags\nYou need ", ftos(tdm_fraglimit - team_score)," more frags to win");
 	}
 }
 
@@ -262,7 +262,7 @@ float() tdm_game_getFragsLeft =
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 
 	team_score = tdm_game_getTeamScore(self.team);
-      enemy_score = tdm_game_getTeamScore(otherTeam);
+    enemy_score = tdm_game_getTeamScore(otherTeam);
 		
 	local float is_leading = 0;
 	if (team_score >= enemy_score) { is_leading = 1; }

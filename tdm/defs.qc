@@ -19,3 +19,8 @@ void(entity self) ChangeMOTD;
 // for kill sprees
 .float prev_frags;
 string last_spree;
+
+float fraglimit;
+float tdm_fraglimit;
+.float is_onSpree;
+float old_frags_left;
