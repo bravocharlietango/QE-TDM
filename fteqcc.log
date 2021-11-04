@@ -1,0 +1,47 @@
+Args: C:\Users\Bradley\Documents\QuakeDev\QECTF\fteqcc64.exe
+FTEQCC: 5630 (2020-02-16T19:27:31.975445Z)
+Source file: progs.src
+outputfile: ../progs.dat
+compiling defs.qc
+compiling subs.qc
+compiling math.qc
+compiling tdm/defs.qc
+compiling tdm/utils.qc
+compiling tdm/tdm.qc
+compiling entmod/defs.qc
+compiling fight.qc
+compiling ai.qc
+compiling combat.qc
+compiling items.qc
+compiling weapons.qc
+compiling world.qc
+compiling client.qc
+compiling player.qc
+compiling monsters.qc
+compiling doors.qc
+compiling buttons.qc
+compiling triggers.qc
+compiling plats.qc
+compiling misc.qc
+compiling maputils.qc
+compiling maps.qc
+compiling ogre.qc
+compiling demon.qc
+compiling shambler.qc
+compiling knight.qc
+compiling soldier.qc
+compiling wizard.qc
+compiling dog.qc
+compiling zombie.qc
+compiling boss.qc
+compiling tarbaby.qc
+compiling hknight.qc
+compiling fish.qc
+compiling shalrath.qc
+compiling enforcer.qc
+compiling oldone.qc
+compiling entmod/entmod.qc
+compiling entmod/commands.qc
+compiling motd.qc
+Compile finished: ../progs.dat (id format)
+Done. 0 warnings

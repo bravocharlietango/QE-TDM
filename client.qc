@@ -261,7 +261,7 @@ void() execute_changelevel =
 	
 // enforce a wait time before allowing changelevel
 	if (deathmatch)
-		intermission_exittime = time + 5;
+		intermission_exittime = time + 10;
 	else
 		intermission_exittime = time + 2;
 
@@ -286,10 +286,10 @@ void() execute_changelevel =
 		other = find (other, classname, "player");
 	}	
 	
-	// supress intermission screen, display our game over screen instead
+	// supress intermission screen for a bit, display our game over screen instead
 	// this is kinda kludgy but seems to work
 	tdm_game_displayGameOver();
-	if (time > 5 + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
+	if (time > 10 + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
 };
 
 
@@ -1247,7 +1247,7 @@ void() ClientConnect =
 {
 	tdm_player_autoAssignTeam(self);
 
-	if(ctf_isBot(self)) {
+	if(tdm_isBot(self)) {
 		bprint("Bot '");
 		bprint(self.netname);
 		bprint("' entered the game");

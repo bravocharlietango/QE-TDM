@@ -11,7 +11,7 @@ math.qc
 //ctf/flags.qc
 
 tdm/defs.qc
-ctf/bots.qc
+//ctf/bots.qc
 tdm/utils.qc
 tdm/tdm.qc
 
