@@ -4,13 +4,17 @@ defs.qc
 subs.qc
 math.qc
 
-tdm/defs.qc
-tdm/utils.qc
-tdm/tdm.qc
+
 //ctf/defs.qc
 //ctf/utils.qc
 //ctf/bots.qc
 //ctf/flags.qc
+
+tdm/defs.qc
+ctf/bots.qc
+tdm/utils.qc
+tdm/tdm.qc
+
 
 entmod/defs.qc
 

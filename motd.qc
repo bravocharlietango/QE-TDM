@@ -2,7 +2,6 @@
 This file handles the Message Of The Day (MOTD)
 */
 
-
 void(entity p) DisplayMOTD =
 {
 	if (p.motdtext == 0)
@@ -13,7 +12,7 @@ void(entity p) DisplayMOTD =
 
 void(entity p) InitMOTD =
 {
-	p.motdtext = 1;		      // quantity of MOTD messages
+	p.motdtext = 1;		        // quantity of MOTD messages
 	p.motdtime = time - 0.01;	// the past is always to late
 };
 

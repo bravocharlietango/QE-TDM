@@ -103,7 +103,7 @@ string(string title) GetMapName =
     }
     // Rogue
     else if(mapname == "ctf1" && title == "Division of Change") {
-        return "Division of Change (QECTF)";
+        return "Division of Change (TeamDM)";
     }
 	
 	// Default

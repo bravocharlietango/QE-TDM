@@ -718,12 +718,10 @@ void() CheckRules =
 //		return;
 //	}
 
-	
 	tdm_game_checkLeaderChange();
 	tdm_player_checkKillStreak();
 	old_frags_left = old_frags_left; // just setting this to itself to avoid compiler warning
 
-	local float frags_left = 0;
 	local float player_highScore = tdm_player_highScore();
 
 	frags_left = tdm_game_getFragsLeft();
@@ -734,12 +732,10 @@ void() CheckRules =
 		cvar_set("fraglimit",ftos(player_highScore + frags_left));
 	}
 	
-	if (frags_left < 0)
+	if (frags_left == 0)
 	{
-
 		NextLevel ();
 		return;
-
 	}
 };
 
@@ -1251,15 +1247,15 @@ void() ClientConnect =
 {
 	tdm_player_autoAssignTeam(self);
 
-//	if(ctf_isBot(self)) {
-//		bprint("Bot '");
-//		bprint(self.netname);
-//		bprint("' entered the game");
-//	}
-//	else {
+	if(ctf_isBot(self)) {
+		bprint("Bot '");
+		bprint(self.netname);
+		bprint("' entered the game");
+	}
+	else {
 		bprint (self.netname);
 		bprint (" entered the game");
-//	}
+	}
 
 	if(self.team == TEAM_BLUE)
 	bprint(" as team blue");
@@ -1383,7 +1379,7 @@ void(entity targ, entity attacker) ClientObituary =
 			else
 			{
 				attacker.frags = attacker.frags + 1;
-				if ((last_spree = self.netname)) { last_spree = "";}
+				if ((last_spree = self.netname)) {last_spree = "";}
 
 				rnum = attacker.weapon;
 				if (rnum == IT_AXE)
