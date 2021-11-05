@@ -1,3 +1,2 @@
 *.exe
-error.log
-fteqcc.log
+*.log

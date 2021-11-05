@@ -14,7 +14,8 @@ tdm/defs.qc
 //ctf/bots.qc
 tdm/utils.qc
 tdm/tdm.qc
-
+tdm/hook.qc
+tdm/player_id.qc
 
 entmod/defs.qc
 
@@ -63,3 +64,4 @@ entmod/commands.qc
 motd.qc
 
 //ctf/compatibility.qc
+

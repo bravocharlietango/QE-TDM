@@ -286,10 +286,8 @@ void() execute_changelevel =
 		other = find (other, classname, "player");
 	}	
 	
-	// supress intermission screen for a bit, display our game over screen instead
-	// this is kinda kludgy but seems to work
 	tdm_game_displayGameOver();
-	if (time > 10 + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
+	//if (time > 10 + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
 };
 
 
@@ -719,7 +717,7 @@ void() CheckRules =
 //	}
 
 	tdm_game_checkLeaderChange();
-	tdm_player_checkKillStreak();
+	tdm_player_checkKillStreak(self);
 	old_frags_left = old_frags_left; // just setting this to itself to avoid compiler warning
 
 	local float player_highScore = tdm_player_highScore();
@@ -984,7 +982,7 @@ void() PlayerPreThink =
 	makevectors (self.v_angle);		// is this still used
 
 	CheckRules ();
-	tdm_player_checkChangeTeam(self);
+	tdm_player_checkImpulse(self);
 	WaterMove ();
 
 	if (self.waterlevel == 2)
@@ -1264,6 +1262,9 @@ void() ClientConnect =
 	
 	bprint("\n");
 	
+	//turn on player ID 
+	self.impulse = 15;
+
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
 		ExitIntermission ();
@@ -1310,7 +1311,9 @@ called when a player dies
 void(entity targ, entity attacker) ClientObituary =
 {
 	// next line is for killing sprees
-	if ((targ.is_onSpree == 1)) {targ.is_onSpree = 0; tmd_player_endsKillingSpree(attacker, targ); }
+	if ((targ.is_onSpree == 1)) {targ.is_onSpree = 0; tdm_player_endsKillingSpree(attacker, targ); }
+	if ((last_spree = attacker.netname)) {last_spree = "";}
+	last_spree = targ.netname; // this is here to work around a bug i dont quite understand yet
 
 	local	float rnum;
 	local	string deathstring, deathstring2;
@@ -1379,7 +1382,9 @@ void(entity targ, entity attacker) ClientObituary =
 			else
 			{
 				attacker.frags = attacker.frags + 1;
-				if ((last_spree = self.netname)) {last_spree = "";}
+
+				// increment team frag count
+				tdm_game_incTeamScore(attacker.team);
 
 				rnum = attacker.weapon;
 				if (rnum == IT_AXE)

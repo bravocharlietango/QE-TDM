@@ -35,6 +35,7 @@ void() W_Precache =
 	precache_sound ("weapons/grenade.wav");	// grenade launcher
 	precache_sound ("weapons/bounce.wav");		// grenade bounce
 	precache_sound ("weapons/shotgn2.wav");	// super shotgun
+	precache_sound ("blob/land1.wav");
 };
 
 float() crandom =
@@ -49,6 +50,8 @@ W_FireAxe
 */
 void() W_FireAxe =
 {
+	CheckGrapHook ();
+
 	local	vector	source;
 	local	vector	org;
 
@@ -1260,6 +1263,9 @@ void() ImpulseCommands =
 	if (self.impulse == 255)
 		QuadCheat ();
 		
+	if(self.impulse==15)
+		player_id_toggle();
+
 	self.impulse = 0;
 
 	
